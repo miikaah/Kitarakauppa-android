@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProductsAdapter extends ArrayAdapter<Product> {
@@ -30,9 +31,11 @@ public class ProductsAdapter extends ArrayAdapter<Product> {
 		// Lookup view for data population
 		TextView pName = (TextView) convertView.findViewById(R.id.productName);
 		TextView pPrice = (TextView) convertView.findViewById(R.id.productPrice);
+		EditText pAmount = (EditText) convertView.findViewById(R.id.edit_pQuantity);
 		// Populate the data into the template view using the data object
 		pName.setText(product.getName());
 		pPrice.setText(String.valueOf(product.getPrice()));
+		pAmount.setText("1");
 		// Return the completed view to render on screen
 		return convertView;
 	}

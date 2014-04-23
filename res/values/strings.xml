@@ -19,5 +19,8 @@
     <string name="button_placeOrder">Tilaa</string>
     <string name="button_cancelOrder">Peru</string>
     <string name="text_sumTotal">Yhteensä: 0</string>
+    <string name="text_pName">Nimi: </string>
+    <string name="text_pPrice">Hinta: </string>
+    <string name="text_pQuantity">Lkm: </string>
 
 </resources>
