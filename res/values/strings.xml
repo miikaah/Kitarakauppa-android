@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kitarakauppa</string>
+    <string name="action_addToCart">Lisää koriin</string>
+    <string name="title_section1">Tuotteet</string>
+    <string name="title_section2">Valmistajat</string>
+    <string name="title_section3">Ostoskori</string>
+    <string name="checkout_name">Kitarakauppa - Kassa</string>
+    <string name="text_cart">Ostoskori</string>
+    <string name="button_toCheckout">Kassalle</string>
+    <string name="text_checkout">Kassa</string>
+    <string name="text_firstName">Etunimi</string>
+    <string name="text_lastName">Sukunimi</string>
+    <string name="text_address">Osoite</string>
+    <string name="text_zipCode">Postinumero</string>
+    <string name="text_city">Postitoimipaik.</string>
+    <string name="text_email">E-mail</string>
+    <string name="button_placeOrder">Tilaa</string>
+    <string name="button_cancelOrder">Peru</string>
+    <string name="text_sumTotal">Yhteensä: 0</string>
+
+</resources>
