@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +22,7 @@ import com.miikaah.kitarakauppaclient.domain.Product;
 import com.miikaah.kitarakauppaclient.storage.Cart;
 import com.miikaah.kitarakauppaclient.ui.ProductsAdapter;
 
-public class CartFragment extends Fragment implements View.OnTouchListener {
+public class CartFragment extends Fragment {
 	
 	// product that was selected with itemLongClick
     Product selectedProduct;
@@ -120,11 +119,5 @@ public class CartFragment extends Fragment implements View.OnTouchListener {
 		Log.d(TAG, "Updating product list");
 		ProductsAdapter pa = new ProductsAdapter(getActivity(), Cart.INSTANCE.getProductsInCart());
 		listview.setAdapter(pa);
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
