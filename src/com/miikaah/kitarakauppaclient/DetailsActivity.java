@@ -14,10 +14,15 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miikaah.kitarakauppaclient.domain.Product;
+import com.miikaah.kitarakauppaclient.storage.Cart;
 import com.miikaah.kitarakauppaclient.storage.Products;
 
 public class DetailsActivity extends Activity {
@@ -81,6 +86,35 @@ public class DetailsActivity extends Activity {
 			Log.e(TAG, "Network error");
 		}
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.details, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_addToCart:
+			Log.d(TAG, "Adding to Cart: " + p.getName());            
+            // Add product to cart and notify user
+            if (Cart.INSTANCE.addToCart(p)) {
+            	Toast.makeText(this, p + "\nlisättiin koriin", Toast.LENGTH_LONG).show();
+            } else {
+            	Toast.makeText(this, p + "\non jo korissa", Toast.LENGTH_LONG).show();
+            }
+            return true;
+		case R.id.action_goBack:
+			Log.d(TAG, "Finishing " + TAG);
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}		
 	}
 
 	private void setImg(String pic) {

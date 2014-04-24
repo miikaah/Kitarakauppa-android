@@ -25,5 +25,6 @@
     <string name="action_removeFromCart">Poista</string>
     <string name="text_pDetails">ladataan lisätietoja&#8230;</string>
     <string name="label_details">Lisätiedot</string>
+    <string name="action_goBack">Takaisin</string>
 
 </resources>
