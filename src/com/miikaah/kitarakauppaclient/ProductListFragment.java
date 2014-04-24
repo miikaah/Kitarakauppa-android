@@ -144,7 +144,7 @@ public class ProductListFragment extends ListFragment {
 			public boolean onItemLongClick(AdapterView<?> arg0, View view,
 					int position, long id) {
 				Log.d(TAG, "onItemLongClick id: " + id + " pos: " + position);
-				selectedProduct = Cart.INSTANCE.getProductAt(position);
+				selectedProduct = Products.INSTANCE.getProductAt(position);
 				if (mActionMode != null) {
 		            return false;
 		        }
