@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
  
@@ -49,9 +50,10 @@ public class JSONParser {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
- 
+                //Log.d(TAG, "url params: " + EntityUtils.toString(new UrlEncodedFormEntity(params)));
+                
                 HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
+                HttpEntity httpEntity = httpResponse.getEntity();                
                 is = httpEntity.getContent();
  
             } else if (method == "GET"){
@@ -93,7 +95,7 @@ public class JSONParser {
         try {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            Log.e("JSON Parser", "Error parsing data: " + e.toString());
         }
  
         // return JSON String
