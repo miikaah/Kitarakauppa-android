@@ -15,15 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProductsAdapter extends ArrayAdapter<Product> implements View.OnTouchListener {
-	private ArrayList<Product> productsList;
 
 	public ProductsAdapter(Context context, ArrayList<Product> products) {
 		super(context, R.layout.item_product, products);
-		productsList = products;
-	}
-	
-	public ArrayList<Product> getProducts() {
-		return productsList;
 	}
 
 	@Override
