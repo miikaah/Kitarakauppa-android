@@ -2,6 +2,8 @@ package com.miikaah.kitarakauppaclient;
 
 import java.util.Locale;
 
+import com.miikaah.kitarakauppaclient.storage.Cart;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, IOnItemSelectedListener {
@@ -197,7 +200,12 @@ public class MainActivity extends FragmentActivity implements
 
 	public void toCheckout(View view) {
 		Log.d(TAG, "Attempting to launch CheckoutActivity");
-		Intent intent = new Intent(this, CheckoutActivity.class);
-		startActivity(intent);
+		
+		if (Cart.INSTANCE.getSize() > 0) {
+			Intent intent = new Intent(this, CheckoutActivity.class);
+			startActivity(intent);
+		} else {
+			Toast.makeText(this, "Korissa ei ole tuotteita", Toast.LENGTH_LONG).show();
+		}
 	}
 }

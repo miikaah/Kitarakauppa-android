@@ -9,13 +9,12 @@ public class Product {
 	private String desc;
 	private int categoryId;
 	private int storageTotal;
-	
-	public Product(String name) {
-		this.name = name;
-	}
+	private int quantity;
 	
 	public Product(int id, String name, double price, int manufacturerId,
-			String pic, String desc, int categoryId, int storageTotal) {
+			String pic, String desc, int categoryId, int storageTotal,
+			int quantity) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -24,6 +23,7 @@ public class Product {
 		this.desc = desc;
 		this.categoryId = categoryId;
 		this.storageTotal = storageTotal;
+		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -93,5 +93,13 @@ public class Product {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

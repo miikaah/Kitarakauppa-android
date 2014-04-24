@@ -22,5 +22,6 @@
     <string name="text_pName">Nimi: </string>
     <string name="text_pPrice">Hinta: </string>
     <string name="text_pQuantity">Lkm: </string>
+    <string name="action_removeFromCart">Poista</string>
 
 </resources>

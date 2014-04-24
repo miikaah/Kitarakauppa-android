@@ -91,7 +91,13 @@ public class ProductListFragment extends ListFragment {
 	        switch (item.getItemId()) {
 	            case R.id.action_addToCart:
 	                Log.d(TAG, "Adding to Cart: " + selectedProduct.getName());
-	                Cart.INSTANCE.addToCart(selectedProduct);
+	                
+	                // Add product to cart and notify user
+	                if (Cart.INSTANCE.addToCart(selectedProduct)) {
+	                	Toast.makeText(getActivity(), selectedProduct + "\nlisättiin koriin", Toast.LENGTH_LONG).show();
+	                } else {
+	                	Toast.makeText(getActivity(), selectedProduct + "\non jo korissa", Toast.LENGTH_LONG).show();
+	                }
 	                mode.finish(); // Action picked, so close the CAB
 	                return true;
 	            default:
@@ -231,7 +237,7 @@ public class ProductListFragment extends ListFragment {
                         double price = Double.parseDouble(c.getString(TAG_PRICE));
                         
                         // Add product to list
-                        productsList.add(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal));
+                        productsList.add(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal, 1));
                     }
                 } 
             } catch (JSONException e) {

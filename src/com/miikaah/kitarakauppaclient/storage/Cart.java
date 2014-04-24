@@ -39,4 +39,8 @@ public enum Cart {
 	public ArrayList<Product> getProductsInCart() {
 		return products;
 	}
+	
+	public int getSize() {
+		return products.size();
+	}
 }
