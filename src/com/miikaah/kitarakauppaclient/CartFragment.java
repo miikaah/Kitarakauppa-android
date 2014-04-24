@@ -3,10 +3,6 @@ package com.miikaah.kitarakauppaclient;
 
 import java.util.ArrayList;
 
-import com.miikaah.kitarakauppaclient.domain.Product;
-import com.miikaah.kitarakauppaclient.storage.Cart;
-import com.miikaah.kitarakauppaclient.ui.ProductsAdapter;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,17 +11,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TableRow;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemLongClickListener;
 
-public class CartFragment extends Fragment {
+import com.miikaah.kitarakauppaclient.domain.Product;
+import com.miikaah.kitarakauppaclient.storage.Cart;
+import com.miikaah.kitarakauppaclient.ui.ProductsAdapter;
+
+public class CartFragment extends Fragment implements View.OnTouchListener {
 	
 	// product that was selected with itemLongClick
     Product selectedProduct;
@@ -63,7 +61,6 @@ public class CartFragment extends Fragment {
 	                
 	                // Remove product from cart and notify user
 	                if (Cart.INSTANCE.removeProduct(selectedProduct)) {
-	                	Toast.makeText(getActivity(), selectedProduct + "\npoistettiin korista", Toast.LENGTH_LONG).show();
 	                	ArrayAdapter aa = (ArrayAdapter) listview.getAdapter();
 	                	aa.remove(selectedProduct);
 	                	listview.setAdapter(aa);
@@ -123,5 +120,11 @@ public class CartFragment extends Fragment {
 		Log.d(TAG, "Updating product list");
 		ProductsAdapter pa = new ProductsAdapter(getActivity(), Cart.INSTANCE.getProductsInCart());
 		listview.setAdapter(pa);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
