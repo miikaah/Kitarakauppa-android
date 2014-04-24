@@ -31,6 +31,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.miikaah.kitarakauppaclient.domain.Product;
 import com.miikaah.kitarakauppaclient.storage.Cart;
+import com.miikaah.kitarakauppaclient.storage.Products;
 import com.miikaah.kitarakauppaclient.util.JSONParser;
 
 public class ProductListFragment extends ListFragment {
@@ -177,7 +178,7 @@ public class ProductListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
-        mListener.onItemSelected(Cart.INSTANCE.getProductAt(position));
+        mListener.onItemSelected(Products.INSTANCE.getProductAt(position));
     }
  
     /**
@@ -235,8 +236,8 @@ public class ProductListFragment extends ListFragment {
                         int manufacturerId = Integer.parseInt(c.getString(TAG_MANUFACTURER_ID));
                         double price = Double.parseDouble(c.getString(TAG_PRICE));
                         
-                        // Add product to Cart Singleton
-                        Cart.INSTANCE.addToCart(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal, 1));
+                        // Add product to Products Singleton
+                        Products.INSTANCE.addToList(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal, 1));
                     }
                 } 
             } catch (JSONException e) {
@@ -255,7 +256,7 @@ public class ProductListFragment extends ListFragment {
             /**
              * Updating parsed JSON data into ListView
              * */
-        	setListAdapter(new ArrayAdapter<Product>(getActivity(), layout, Cart.INSTANCE.getProductsInCart()));
+        	setListAdapter(new ArrayAdapter<Product>(getActivity(), layout, Products.INSTANCE.getProductsInList()));
         }
  
     }

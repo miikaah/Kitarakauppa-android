@@ -1,5 +1,7 @@
 package com.miikaah.kitarakauppaclient.domain;
 
+import android.graphics.Bitmap;
+
 public class Product {
 	private int id;
 	private String name;
@@ -10,6 +12,8 @@ public class Product {
 	private int categoryId;
 	private int storageTotal;
 	private int quantity;
+	private String descString;
+	private Bitmap bmp;
 	
 	public Product(int id, String name, double price, int manufacturerId,
 			String pic, String desc, int categoryId, int storageTotal,
@@ -101,5 +105,21 @@ public class Product {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public Bitmap getBmp() {
+		return bmp;
+	}
+
+	public void setBmp(Bitmap bmp) {
+		this.bmp = bmp;
+	}
+
+	public String getDescString() {
+		return descString;
+	}
+
+	public void setDescString(String desc) {
+		this.descString = desc;
 	}
 }
