@@ -30,6 +30,10 @@
             android:name="com.miikaah.kitarakauppaclient.CheckoutActivity" 
             android:label="@string/checkout_name">
         </activity>
+        <activity
+            android:name="com.miikaah.kitarakauppaclient.DetailsActivity" 
+            android:label="@string/label_details">
+        </activity>
     </application>
 
 </manifest>

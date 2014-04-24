@@ -40,7 +40,20 @@ public enum Cart {
 		return products;
 	}
 	
+	public void setProductsInCart(ArrayList<Product> products) {
+		this.products = products;
+	}
+	
 	public int getSize() {
 		return products.size();
+	}
+	
+	public Product getProductWith(int id) {
+		for (Product p : products) {
+			if (p.getId() == id) {
+				return p;
+			}
+		}
+		return null;
 	}
 }

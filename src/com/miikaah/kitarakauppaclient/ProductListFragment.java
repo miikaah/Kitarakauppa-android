@@ -34,7 +34,6 @@ import com.miikaah.kitarakauppaclient.storage.Cart;
 import com.miikaah.kitarakauppaclient.util.JSONParser;
 
 public class ProductListFragment extends ListFragment {
-	private ArrayList<Product> productsList;
 	private IOnItemSelectedListener mListener;
 	private int layout;
 	
@@ -121,8 +120,6 @@ public class ProductListFragment extends ListFragment {
         // We need to use a different list item layout for devices older than Honeycomb
         layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
-        
-        productsList = new ArrayList<Product>();
  
         // Loading products in Background Thread
         Activity a = getActivity();
@@ -146,7 +143,7 @@ public class ProductListFragment extends ListFragment {
 			public boolean onItemLongClick(AdapterView<?> arg0, View view,
 					int position, long id) {
 				Log.d(TAG, "onItemLongClick id: " + id + " pos: " + position);
-				selectedProduct = productsList.get(position);
+				selectedProduct = Cart.INSTANCE.getProductAt(position);
 				if (mActionMode != null) {
 		            return false;
 		        }
@@ -180,7 +177,7 @@ public class ProductListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
-        mListener.onItemSelected(productsList.get(position));
+        mListener.onItemSelected(Cart.INSTANCE.getProductAt(position));
     }
  
     /**
@@ -238,8 +235,8 @@ public class ProductListFragment extends ListFragment {
                         int manufacturerId = Integer.parseInt(c.getString(TAG_MANUFACTURER_ID));
                         double price = Double.parseDouble(c.getString(TAG_PRICE));
                         
-                        // Add product to list
-                        productsList.add(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal, 1));
+                        // Add product to Cart Singleton
+                        Cart.INSTANCE.addToCart(new Product(id, name, price, manufacturerId, pic, desc, categoryId, sTotal, 1));
                     }
                 } 
             } catch (JSONException e) {
@@ -258,7 +255,7 @@ public class ProductListFragment extends ListFragment {
             /**
              * Updating parsed JSON data into ListView
              * */
-        	setListAdapter(new ArrayAdapter<Product>(getActivity(), layout, productsList)); 
+        	setListAdapter(new ArrayAdapter<Product>(getActivity(), layout, Cart.INSTANCE.getProductsInCart()));
         }
  
     }
