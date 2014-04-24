@@ -27,14 +27,15 @@ public class JSONParser {
     static JSONObject jObj = null;
     static String json = "";
     
- 
+    private final static String TAG = "JSONParser";
+    
     // constructor
     public JSONParser() {
  
     }
  
     // function get json from url
-    // by making HTTP POST or GET mehtod
+    // by making HTTP POST or GET method
     public JSONObject makeHttpRequest(String url, String method,
             List<NameValuePair> params) {
  
@@ -56,6 +57,9 @@ public class JSONParser {
             } else if (method == "GET"){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
+                String paramString = URLEncodedUtils.format(params, "utf-8");
+                url += "?" + paramString;
+                Log.d(TAG, "url: " + url);
                 HttpGet httpGet = new HttpGet(url);
  
                 HttpResponse httpResponse = httpClient.execute(httpGet);

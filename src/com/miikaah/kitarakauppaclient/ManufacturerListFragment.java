@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,7 @@ public class ManufacturerListFragment extends ListFragment {
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
 		if (networkInfo != null && networkInfo.isConnected()) {
-			new LoadAllProducts().execute(BASE_URL + "?valmistaja=kaikki");
+			new LoadAllProducts().execute(BASE_URL);
 		} else {
 			Log.e(TAG, "No network connection available.");
 		}
@@ -102,8 +103,9 @@ public class ManufacturerListFragment extends ListFragment {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("valmistaja", "kaikki"));
+            
             // getting JSON string from URL
-            Log.d(TAG, "url: " + args[0]);
             JSONObject json = jParser.makeHttpRequest(args[0], "GET", params);
  
             // Check your log cat for JSON response
