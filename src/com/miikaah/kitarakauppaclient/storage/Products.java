@@ -43,6 +43,21 @@ public enum Products {
 	public ArrayList<Product> getProductsInList() {
 		return products;
 	}
+	
+	/**
+	 * Returns an arraylist of products that match given id.
+	 * @param manId id by which you want to select products
+	 * @return products that match the given id
+	 */
+	public ArrayList<Product> getProductsByMan(int manId) {
+		ArrayList<Product> productsByMan = new ArrayList<Product>();
+		for (Product product : products) {
+			if (product.getManufacturerId() == manId) {
+				productsByMan.add(product);
+			}
+		}
+		return productsByMan;
+	}
 
 	public void setProductsInList(ArrayList<Product> products) {
 		this.products = products;
