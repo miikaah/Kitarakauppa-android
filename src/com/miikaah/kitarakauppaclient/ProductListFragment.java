@@ -208,7 +208,7 @@ public class ProductListFragment extends ListFragment {
             params.add(new BasicNameValuePair("kategoria", "kaikki"));
             
             // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(args[0], "GET", params);
+            JSONObject json = jParser.makeHttpRequest(args[0], "GET", params, null);
  
             // Check your log cat for JSON response
             Log.i(TAG, json.toString());

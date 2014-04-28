@@ -31,7 +31,6 @@ public class CheckoutActivity extends Activity {
 	private String zipCode;
 	private String city;
 	private String email;
-	private String pAmount;
 	
 	private ProgressDialog pDialog;
 	
@@ -103,28 +102,30 @@ public class CheckoutActivity extends Activity {
  
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("etunimi", firstName));
-            params.add(new BasicNameValuePair("sukunimi", lastName));
-            params.add(new BasicNameValuePair("osoite", address));
-            params.add(new BasicNameValuePair("postinro", zipCode));
-            params.add(new BasicNameValuePair("postitoimipaikka", city));
+            params.add(new BasicNameValuePair("firstName", firstName));
+            params.add(new BasicNameValuePair("lastName", lastName));
+            params.add(new BasicNameValuePair("address", address));
+            params.add(new BasicNameValuePair("zipCode", zipCode));
+            params.add(new BasicNameValuePair("city", city));
             params.add(new BasicNameValuePair("email", email));
-            // Stupid hack just for now
-            String max_ids = String.valueOf(Cart.INSTANCE.getSize());
+            
+            // Get product ids from Cart           
+            JSONArray jArray = new JSONArray();
             for (Product p : Cart.INSTANCE.getProductsInCart()) {
-            	String id = String.valueOf(p.getId());
-            	String q = String.valueOf(p.getQuantity());
-				params.add(new BasicNameValuePair(id, q));
+				try {
+					JSONObject pids = new JSONObject();
+					pids.put("id", p.getId());
+					pids.put("amount", p.getQuantity());
+					jArray.put(pids);
+				} catch (JSONException e) {
+					Log.e(TAG, e.getMessage());
+				}
 			}
-            params.add(new BasicNameValuePair("max_ids", max_ids));
  
             // getting JSON Object
             // Note that create product url accepts POST method
             JSONObject json = jParser.makeHttpRequest(BASE_URL,
-                    "POST", params);
- 
-            // check log cat for response
-            Log.d("Create Response", json.toString());
+                    "POST", params, jArray);
  
             // check for success tag
             try {
