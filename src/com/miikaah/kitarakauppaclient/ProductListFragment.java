@@ -118,20 +118,22 @@ public class ProductListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // We need to use a different list item layout for devices older than Honeycomb
-        layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
- 
-        // Loading products in Background Thread
-        Activity a = getActivity();
-        ConnectivityManager connMgr = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (savedInstanceState == null) {
+        	// We need to use a different list item layout for devices older than Honeycomb
+            layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
+                    android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
+     
+            // Loading products in Background Thread
+            Activity a = getActivity();
+            ConnectivityManager connMgr = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
+    		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-		if (networkInfo != null && networkInfo.isConnected()) {
-			new LoadAllProducts().execute(BASE_URL);
-		} else {
-			Log.e(TAG, "No network connection available.");
-		}
+    		if (networkInfo != null && networkInfo.isConnected()) {
+    			new LoadAllProducts().execute(BASE_URL);
+    		} else {
+    			Log.e(TAG, "No network connection available.");
+    		}
+        }
         
     }
 	
@@ -221,6 +223,8 @@ public class ProductListFragment extends ListFragment {
                     // products found
                     // Getting Array of Products
                     products = json.getJSONArray(TAG_PRODUCTS);
+                    // Delete existing products
+                    Products.INSTANCE.removeAllProducts();
  
                     // looping through All Products
                     for (int i = 0; i < products.length(); i++) {

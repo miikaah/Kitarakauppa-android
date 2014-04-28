@@ -35,6 +35,10 @@ public enum Products {
 		}
 		return false;
 	}
+	
+	public void removeAllProducts() {
+		products.clear();
+	}
 
 	public ArrayList<Product> getProductsInList() {
 		return products;
