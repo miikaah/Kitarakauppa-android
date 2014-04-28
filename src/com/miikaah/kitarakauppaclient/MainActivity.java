@@ -2,10 +2,6 @@ package com.miikaah.kitarakauppaclient;
 
 import java.util.Locale;
 
-import com.miikaah.kitarakauppaclient.domain.Manufacturer;
-import com.miikaah.kitarakauppaclient.domain.Product;
-import com.miikaah.kitarakauppaclient.storage.Cart;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -18,13 +14,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.miikaah.kitarakauppaclient.domain.Manufacturer;
+import com.miikaah.kitarakauppaclient.domain.Product;
+import com.miikaah.kitarakauppaclient.storage.Cart;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, IOnItemSelectedListener {
@@ -43,6 +41,8 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	Fragment manFrag;
 	
 	private static final String TAG = "MainActivity";
 
@@ -126,25 +126,19 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
 			if (position == PRODUCTS) {
 				ProductListFragment plf = new ProductListFragment();
 				return Fragment.instantiate(mContext, plf.getClass().getName());
 			} else if (position == MANUFACTURERS) {
 				ManufacturerListFragment mlf = new ManufacturerListFragment();
-				return Fragment.instantiate(mContext, mlf.getClass().getName());
+				manFrag = Fragment.instantiate(mContext, mlf.getClass().getName());
+				return manFrag;
 			} else if (position == CART) {
 				CartFragment cf = new CartFragment();
 				return Fragment.instantiate(mContext, cf.getClass().getName());
 			} else {
 				return null;
 			}
-			/*Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;*/
 		}
 
 		@Override
@@ -178,9 +172,12 @@ public class MainActivity extends FragmentActivity implements
 			intent.putExtra("id", p.getId());
 			startActivity(intent);
 		}
+		// Launch if a manufacturer clicked
 		if (item instanceof Manufacturer) {
 			Manufacturer m = (Manufacturer) item;
 			Log.d(TAG, m.getName() + " selected");
+			ManufacturerListFragment mlf = (ManufacturerListFragment) manFrag;
+			mlf.setProductsByMan(m.getId());
 		}
 		
 	}

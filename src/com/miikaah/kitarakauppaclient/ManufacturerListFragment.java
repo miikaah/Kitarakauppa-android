@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -17,11 +18,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.miikaah.kitarakauppaclient.domain.Manufacturer;
+import com.miikaah.kitarakauppaclient.domain.Product;
+import com.miikaah.kitarakauppaclient.storage.Products;
 import com.miikaah.kitarakauppaclient.util.JSONParser;
 
 public class ManufacturerListFragment extends ListFragment {
@@ -43,6 +49,9 @@ public class ManufacturerListFragment extends ListFragment {
  
     // products JSONArray
     JSONArray manufacturers = null;
+    
+    ArrayList<Product> products;
+    private static String state = "normal";
 	
 	private static final String TAG = "ManufacturerListFragment";
 	
@@ -53,6 +62,8 @@ public class ManufacturerListFragment extends ListFragment {
         // We need to use a different list item layout for devices older than Honeycomb
         layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
+        
+        setHasOptionsMenu(true);
         
         manufacturersList = new ArrayList<Manufacturer>();
         
@@ -79,17 +90,47 @@ public class ManufacturerListFragment extends ListFragment {
         }
     }
 
-	@Override
-	public void onStart(){
-		super.onStart();
-			
-	}
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
-        mListener.onItemSelected(manufacturersList.get(position));
+        if (state.equals("normal")) {
+        	mListener.onItemSelected(manufacturersList.get(position));
+        } else {
+        	mListener.onItemSelected(products.get(position));
+        }
+    }
+    
+    @Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.dummy, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_goBack:
+			Intent intent = new Intent(getActivity(), DummyActivity.class);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}		
+	}
+    
+    public void setProductsByMan(int id) {
+    	products = Products.INSTANCE.getProductsByMan(id);
+    	setListAdapter(new ArrayAdapter<Product>(getActivity(), layout, products));
+    	state = "product";
+    }
+    
+    public void onPause() {
+    	super.onPause();
+    	if (products != null && !products.isEmpty()) {
+    		setListAdapter(new ArrayAdapter<Manufacturer>(getActivity(), layout, manufacturersList));
+        	state = "normal";
+    	}
     }
     
     /**
@@ -108,9 +149,6 @@ public class ManufacturerListFragment extends ListFragment {
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(args[0], "GET", params, null);
  
-            // Check your log cat for JSON response
-            Log.i(TAG, json.toString());
- 
             try {
                 // Checking for SUCCESS TAG
                 int success = json.getInt(TAG_SUCCESS);
@@ -128,7 +166,7 @@ public class ManufacturerListFragment extends ListFragment {
                         int id = Integer.parseInt(c.getString(TAG_ID));
                         String name = c.getString(TAG_NAME);
                         
-                        // Add product to list
+                        // Add manufacturer to list
                         manufacturersList.add(new Manufacturer(id, name));
                     }
                 } 
@@ -139,9 +177,6 @@ public class ManufacturerListFragment extends ListFragment {
             return null;
         }
  
-        /**
-         * After completing background task Dismiss the progress dialog
-         * **/
         protected void onPostExecute(String file_url) {
             /**
              * Updating parsed JSON data into ListView

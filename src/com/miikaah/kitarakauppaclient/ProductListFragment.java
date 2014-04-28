@@ -118,22 +118,20 @@ public class ProductListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null) {
-        	// We need to use a different list item layout for devices older than Honeycomb
-            layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                    android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
-     
-            // Loading products in Background Thread
-            Activity a = getActivity();
-            ConnectivityManager connMgr = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
-    		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        // We need to use a different list item layout for devices older than Honeycomb
+        layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
+                android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
+ 
+        // Loading products in Background Thread
+        Activity a = getActivity();
+        ConnectivityManager connMgr = (ConnectivityManager) a.getSystemService(a.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-    		if (networkInfo != null && networkInfo.isConnected()) {
-    			new LoadAllProducts().execute(BASE_URL);
-    		} else {
-    			Log.e(TAG, "No network connection available.");
-    		}
-        }
+		if (networkInfo != null && networkInfo.isConnected()) {
+			new LoadAllProducts().execute(BASE_URL);
+		} else {
+			Log.e(TAG, "No network connection available.");
+		}
         
     }
 	
@@ -170,12 +168,6 @@ public class ProductListFragment extends ListFragment {
         }
     }
 
-	@Override
-	public void onStart(){
-		super.onStart();
-			
-	}
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Set the item as checked to be highlighted when in two-pane layout
@@ -211,9 +203,6 @@ public class ProductListFragment extends ListFragment {
             
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(args[0], "GET", params, null);
- 
-            // Check your log cat for JSON response
-            Log.i(TAG, json.toString());
  
             try {
                 // Checking for SUCCESS TAG
